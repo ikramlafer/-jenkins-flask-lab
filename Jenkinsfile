@@ -24,19 +24,19 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'docker run --rm ${IMAGE_NAME}:${BUILD_NUMBER} pytest -v'
+                sh 'docker run --rm ${IMAGE_NAME}:${BUILD_NUMBER} python -m pytest -v'
             }
         }
 
         stage('Deploy') {
             steps {
                 sh '''
-                docker rm -f ${CONTAINER_NAME} || true
+                    docker rm -f ${CONTAINER_NAME} || true
 
-                docker run -d --name ${CONTAINER_NAME} \
-                -p ${APP_PORT}:8000 \
-                -e APP_VERSION=${BUILD_NUMBER} \
-                ${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker run -d --name ${CONTAINER_NAME} \
+                    -p ${APP_PORT}:8000 \
+                    -e APP_VERSION=${BUILD_NUMBER} \
+                    ${IMAGE_NAME}:${BUILD_NUMBER}
                 '''
             }
         }

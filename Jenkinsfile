@@ -43,6 +43,8 @@ pipeline {
 
         stage('Verify') {
             steps {
+                sh 'sleep 5'
+
                 sh 'curl --fail --retry 10 --retry-delay 2 http://localhost:${APP_PORT}/health'
 
                 sh 'curl --fail http://localhost:${APP_PORT}/'
